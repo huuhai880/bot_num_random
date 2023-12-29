@@ -9,6 +9,8 @@ from handlekeyword_CHIA import handlekeyword_CHIA
 from handlekeyword_CHIATRON import handlekeyword_CHIATRON
 from handlekeyword_VONG import handlekeyword_VONG
 from handlekeyword_TRON import handlekeyword_TRON
+from handlekeyword_3CON import handlekeyword_3CON
+from handlekeyword_PHOI import handlekeyword_PHOI
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
 TOKEN = '6808395010:AAGvk6Wgg3eqm-nj12N6loWWn4lcDJMLZNY'
@@ -25,6 +27,18 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
         print("chiatron")
         # Perform some action here for the 'chia' case
         await handlekeyword_CHIATRON(update, context)
+
+    elif replace_vietnamese_characters(message_text).lower().endswith(("3con","3c","3 con","3 c","3conthang","3ct","3 conthang","3 ct")):
+
+        print("3con")
+        # Perform some action here for the 'cashe' case
+        await handlekeyword_3CON(update, context)
+    
+    elif replace_vietnamese_characters(message_text).lower().endswith(("phoi","p")):
+
+        print("phoi")
+        # Perform some action here for the 'cashe' case
+        await handlekeyword_PHOI(update, context)
 
     elif replace_vietnamese_characters(message_text).lower().endswith(("tron")):
 
