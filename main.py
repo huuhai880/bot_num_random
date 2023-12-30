@@ -11,6 +11,7 @@ from handlekeyword_VONG import handlekeyword_VONG
 from handlekeyword_TRON import handlekeyword_TRON
 from handlekeyword_3CON import handlekeyword_3CON
 from handlekeyword_PHOI import handlekeyword_PHOI
+from handlekeyword_CHIATIEN import handlekeyword_CHIATIEN
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
 TOKEN = '6808395010:AAGvk6Wgg3eqm-nj12N6loWWn4lcDJMLZNY'
@@ -45,6 +46,11 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
         print("tron")
         # Perform some action here for the 'cashe' case
         await handlekeyword_TRON(update, context)
+    
+    elif replace_vietnamese_characters(message_text).lower().endswith(("chiatien","chia tien","ct","chiat")):
+        print("chiatien")
+        # Perform some action here for the 'chia' case
+        await handlekeyword_CHIATIEN(update, context)
 
     elif "chia" in replace_vietnamese_characters(message_text).lower():
         
@@ -73,7 +79,7 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
         print("vong5")
         # Perform some action here for the 'chia' case
         await handlekeyword_VONG(update, context, 5)
-
+    
     else:
         
         await update.message.reply_text(text="Lỗi không có từ khoá hành động",parse_mode =ParseMode.HTML)

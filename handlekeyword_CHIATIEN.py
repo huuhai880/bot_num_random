@@ -1,15 +1,23 @@
 from telegram import Update
 from telegram.ext import  ContextTypes
 from telegram.constants import ParseMode
-
 from utils import  dais
-
-from helper import replace_vietnamese_characters, laDai, LaySoCuaKieu, LayViTriDaiCuaKieu, LayViTriDiemCuaKieu
-
-import random
+from helper import replace_vietnamese_characters, LayViTriDaiCuaKieu, LaySoCuaKieu, LayViTriDiemCuaKieu
 import re
+import random
 
-async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE):
+def divide_money_random_rounded(amount, num_people):
+    # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
+    percentages = [random.uniform(10, 100) for _ in range(num_people)]
+    total_percentage = sum(percentages)
+
+    # Chuẩn hóa tỷ lệ để tổng là 100%
+    normalized_percentages = [p / total_percentage * 100 for p in percentages]
+
+    shares = [round(amount * (p / 100)) for p in normalized_percentages]
+    return shares
+
+async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     input_str = replace_vietnamese_characters(update.message.text)
 
@@ -18,7 +26,7 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
     input_str = re.sub(r'([a-zA-Z]+)(\d+)', r'\1 \2', input_str)
 
     #loại bỏ các kí tự đặc biệt
-    substrings_to_replace = ["phoi","p", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
+    substrings_to_replace = ["chiatien","chia tien","ct","chiat", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 
     input_str = re.sub(r'\s+', ' ', input_str)
 
@@ -27,11 +35,10 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.strip()
 
+
     input_str = input_str.split(' ')
     
     format_array_muns = []
-
-    num_index = -1
 
     for index, string in enumerate(input_str):
 
@@ -52,68 +59,67 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
             vi_tri_diem_kieu = LayViTriDiemCuaKieu(index,input_str )
 
-            item["kieu"] =input_str[index] + input_str[vi_tri_diem_kieu]
+            item["kieu"] = input_str[index]
+
+            item["diem"] = input_str[vi_tri_diem_kieu]
 
             format_array_muns.append(item)
-    
 
+    
     output_list = []
 
     error_message=False
 
-    
+    print(format_array_muns)
+
+
     for item in format_array_muns:
 
         dai = item['dai']
+        random_so = ' '.join(item['so'])
         kieu = item['kieu']
-        random_number = random.sample(item['so'], len(item['so']))
+        diem = item['diem']
 
-        int_list = list(map(str, random_number))
 
-        result = []
-        # kiểm tra xem nếu list số lớn hơn 3 thì chia đều thành 3
-        if len(int_list) > 3:
-            # Reshape the list into a 3x3 matrix
-            result = [int_list[i:i+3] for i in range(0, len(int_list), 3)]
 
-        elif len(int_list) == 3 and kieu.startswith(('da','d')):
+        # Format the string and append it to the output list
+        formatted_str = ""
 
-            result = [int_list[i:i+3] for i in range(0, len(int_list), 3)]
+        num_people = random.randint(2, 5)
+        
+        result_divide_money = divide_money_random_rounded(int(diem), num_people)
 
-        elif len(int_list) == 3:
-
-            result = [int_list[i:i+2] for i in range(0, len(int_list), 2)]
-
-        for _number in result:
-
-            # Format the string and append it to the output list
-            formatted_str = ""
+        for _diem in result_divide_money:
 
             if item['kieu']== '' :
+
                 formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
                 formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
                 error_message=True
             
             elif len(item['so']) == 0 :
+
                 formatted_str += 'Lỗi tin không có dãy số: \n'
                 formatted_str += f"<code>{dai} {kieu}</code> \n"
                 error_message=True
             
             else:
 
-                lst_number = "-".join(map(str, _number))
-
                 if item['dai']== '' :
-                    formatted_str += f"{lst_number} {kieu}; "
+
+                    formatted_str += f"{random_so} {kieu}{_diem}; "
+
                 else:
-                    formatted_str += f"{dai} {lst_number} {kieu}; "
-                        
-                    
-            output_list.append(formatted_str)
+
+                    formatted_str += f"{dai} {random_so} {kieu}{_diem}; "
+            
+        
+        output_list.append(formatted_str)
 
         
     # Join the formatted strings with line breaks
-    output_str = ' '.join(output_list)
+    output_str = ''.join(output_list)
+
 
     if error_message == True:
 
