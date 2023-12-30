@@ -16,7 +16,12 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.lower()
 
-    input_str = re.sub(r'(\D) (\d)', r'\1\2', input_str)
+    input_str = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', input_str)
+
+    pattern = re.compile(r'(\d[a-zA-Z])')
+
+    # Use the sub function to insert a space after the first character in each matched sequence
+    input_str = pattern.sub(r'\1 ', input_str)
 
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ["phoi","p", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
@@ -119,6 +124,7 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
             result = [int_list[i:i+2] for i in range(0, len(int_list), 2)]
 
+        
         for _number in result:
 
             # Format the string and append it to the output list
@@ -146,9 +152,12 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
                     
             output_list.append(formatted_str)
 
-        
+    
+    print(output_list)
     # Join the formatted strings with line breaks
     output_str = ' '.join(output_list)
+
+    
 
     if error_message == True:
 

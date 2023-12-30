@@ -15,7 +15,12 @@ async def handlekeyword_3CON(update: Update, context: ContextTypes.DEFAULT_TYPE)
     input_str = replace_vietnamese_characters(update.message.text)
 
     input_str = input_str.lower()
-    input_str = re.sub(r'(\D) (\d)', r'\1\2', input_str)
+    input_str = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', input_str)
+
+    pattern = re.compile(r'(\d[a-zA-Z])')
+
+    # Use the sub function to insert a space after the first character in each matched sequence
+    input_str = pattern.sub(r'\1 ', input_str)
 
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ["3con","3c","3 con","3 c","3conthang","3ct","3 conthang","3 ct", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']

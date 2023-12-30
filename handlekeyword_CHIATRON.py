@@ -1,8 +1,7 @@
 from utils import danh_sach_dai, dais
 from helper import replace_vietnamese_characters, is_number
-from telegram import Update, InputFile, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackQueryHandler
-from datetime import date, timedelta
+from telegram import Update
+from telegram.ext import ContextTypes
 from telegram.constants import ParseMode
 import random
 import re
@@ -21,7 +20,12 @@ async def handlekeyword_CHIATRON (update: Update, context: ContextTypes.DEFAULT_
     input_str = replace_vietnamese_characters(update.message.text)
 
     input_str = input_str.lower()
-    input_str = re.sub(r'(\D) (\d)', r'\1\2', input_str)
+    input_str = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', input_str)
+
+    pattern = re.compile(r'(\d[a-zA-Z])')
+
+    # Use the sub function to insert a space after the first character in each matched sequence
+    input_str = pattern.sub(r'\1 ', input_str)
 
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ['chiatron', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
