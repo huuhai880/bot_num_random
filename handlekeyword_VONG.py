@@ -239,8 +239,10 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
                     so = ','.join(item_num)
 
                     if item['dai']== '' :
+
                         formatted_str += f"{so} {kieu}; "
                     else:
+
                         formatted_str += f"{dai} {so} {kieu}; "
                     
 
@@ -261,22 +263,24 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
             number_exists= []
             number_exists.extend(nums_convert)
 
+            output_list = []
+
             for i in range(so_vong - 1, 1 , -1):
-                
-                output_list = []
 
                 _nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), i, number_exists)
                 
                 formatted_str=""
+
+                print(_nums_convert)
 
                 if len(_nums_convert) > 0:
 
                     for item_num in _nums_convert:
 
                         if item['dai']== '' :
-                            formatted_str += f"{so} {kieu}; "
+                            formatted_str += f"{ ','.join(item_num) } {kieu}; "
                         else:
-                            formatted_str += f"{dai} {so} {kieu}; "
+                            formatted_str += f"{dai} {','.join(item_num)} {kieu}; "
 
                     output_list.append(formatted_str)
 
