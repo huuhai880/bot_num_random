@@ -24,7 +24,7 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
     for substring in substrings_to_replace:
         input_str = input_str.replace(substring, ' ')
 
-    input_str = re.sub(r'(\d+)(da|b|x|dx+)', r'\1 \2', input_str)
+    input_str = re.sub(r'(\d+)(da|b|x|dx|dd+)', r'\1 \2', input_str)
 
     input_str = re.sub(r'([d])\s+(\d)', r'\1\2', input_str)
 
