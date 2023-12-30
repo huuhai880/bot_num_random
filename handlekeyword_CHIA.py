@@ -22,6 +22,8 @@ async def handlekeyword_CHIA (update: Update, context: ContextTypes.DEFAULT_TYPE
 
     input_str = input_str.lower()
 
+    input_str = re.sub(r'(\d+)([bBx])', r'\1 \2', input_str)
+
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ['chia', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 

@@ -23,6 +23,8 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
 
     input_str = input_str.lower()
 
+    input_str = re.sub(r'(\d+)([bBx])', r'\1 \2', input_str)    
+
     input_str = re.sub(r'([a-zA-Z]+)(\d+)', r'\1 \2', input_str)
 
     #loại bỏ các kí tự đặc biệt

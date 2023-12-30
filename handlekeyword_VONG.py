@@ -116,6 +116,8 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
 
     input_str = input_str.lower()
 
+    input_str = re.sub(r'(\d+)([bBx])', r'\1 \2', input_str)
+
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = [f'vong {so_vong}',f'vong{so_vong}',f'v{so_vong}',f'v {so_vong}', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 

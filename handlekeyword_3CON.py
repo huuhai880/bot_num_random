@@ -16,6 +16,8 @@ async def handlekeyword_3CON(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.lower()
 
+    input_str = re.sub(r'(\d+)([bBx])', r'\1 \2', input_str)
+
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ["3con","3c","3 con","3 c","3conthang","3ct","3 conthang","3 ct", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 
