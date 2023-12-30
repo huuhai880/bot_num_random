@@ -14,7 +14,7 @@ from handlekeyword_PHOI import handlekeyword_PHOI
 from handlekeyword_CHIATIEN import handlekeyword_CHIATIEN
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
-TOKEN = '6808395010:AAGvk6Wgg3eqm-nj12N6loWWn4lcDJMLZNY'
+TOKEN = '6178433211:AAGekPQz_lY_4Sex-3T5n-fiy41n4GSmVe8'
 
 
 # Example usage
