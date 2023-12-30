@@ -99,9 +99,6 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     error_message=False
 
-    print(format_array_muns)
-
-
     for item in format_array_muns:
 
         dai = item['dai']
@@ -153,11 +150,8 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
             output_list.append(formatted_str)
 
     
-    print(output_list)
     # Join the formatted strings with line breaks
     output_str = ' '.join(output_list)
-
-    
 
     if error_message == True:
 
@@ -166,6 +160,6 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(text=error_message,parse_mode =ParseMode.HTML)
 
     else :
-        await update.message.reply_text(text="output_str",parse_mode =ParseMode.HTML)
+        await update.message.reply_text(text=output_str,parse_mode =ParseMode.HTML)
             
     
