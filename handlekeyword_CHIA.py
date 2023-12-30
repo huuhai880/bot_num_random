@@ -90,15 +90,17 @@ async def handlekeyword_CHIA (update: Update, context: ContextTypes.DEFAULT_TYPE
                         format_array_muns.append(num_item)
                         num_index += 1
                 
-                if string not in  dais and string.startswith(('b','x','d','bl','dx','xd')) :
+                if string not in dais and string.startswith(('b','x','d','bl','dx','xd')) :
 
                     if len(format_array_muns) > 0 :
-                        num_item = format_array_muns[num_index]
-                        num_item['kieu']= string
 
-                    # nếu là kiểu đánh thì tạo item mới
+                        num_item = format_array_muns[num_index]
+                        num_item['kieu'] += string
+                        num_item['kieu'] += " "
+
+                    # nếu là kiểu đánh và item phía sau cũng là kiểu đánh thì không tạo mới
                     
-                    if index < len(input_str)-1:
+                    if index < len(input_str)-1 and (index +1) < len(input_str) and not input_str[index+1].startswith(('b','x','d','bl','dx','xd')) :
                         new_num_item = {}
                         new_num_item['dai']= ''
                         new_num_item['so']= []
