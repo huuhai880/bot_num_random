@@ -134,169 +134,167 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
     input_str = input_str.strip()
 
 
-    if input_str.startswith((danh_sach_dai)):
+    input_str = input_str.split(' ')
+    
+    input_str = list(filter(lambda x: x != "", input_str))
 
-        input_str = input_str.split(' ')
+    format_array_muns = []  
+
+    num_index = -1
+
+    for index, string in enumerate(input_str):
+
+        string = string.strip()
         
-        input_str = list(filter(lambda x: x != "", input_str))
-
-        format_array_muns = []  
-
-        num_index = -1
-
-        for index, string in enumerate(input_str):
-
-            string = string.strip()
+        #kiểm tra xem ký tự đó có phải là đài hay không
+        if string in dais:
             
-            #kiểm tra xem ký tự đó có phải là đài hay không
-            if string in dais:
+            if len(format_array_muns) >0 and len(format_array_muns)-1 == num_index and format_array_muns[num_index]['dai'] =='' :
                 
-                if len(format_array_muns) >0 and len(format_array_muns)-1 == num_index and format_array_muns[num_index]['dai'] =='' :
+                num_item = format_array_muns[num_index]
+                num_item['dai']= string
+
+            else :
+
+                num_item = {}
+                num_item['dai']= string
+                num_item['so']= []
+                num_item['kieu']= ''
+                format_array_muns.append(num_item)
+                num_index += 1
+
+        if is_number(string):
+
+            if len(format_array_muns) > 0 :
                     
-                    num_item = format_array_muns[num_index]
-                    num_item['dai']= string
+                num_item = format_array_muns[num_index]
+                num_item['so'].append(string)
 
-                else :
+            else :
 
-                    num_item = {}
-                    num_item['dai']= string
-                    num_item['so']= []
-                    num_item['kieu']= ''
-                    format_array_muns.append(num_item)
-                    num_index += 1
+                num_item = {}
+                num_item['dai']= ''
+                num_item['so']= [string]
+                num_item['kieu']= ''
+                format_array_muns.append(num_item)
+                num_index += 1
+        
+        if string not in dais and string.startswith(('b','x','d','bl','dx','xd')) :
 
-            if is_number(string):
+            if len(format_array_muns) > 0 :
 
-                if len(format_array_muns) > 0 :
-                        
-                    num_item = format_array_muns[num_index]
-                    num_item['so'].append(string)
+                num_item = format_array_muns[num_index]
+                num_item['kieu'] += string
+                num_item['kieu'] += " "
 
-                else :
-
-                    num_item = {}
-                    num_item['dai']= ''
-                    num_item['so']= [string]
-                    num_item['kieu']= ''
-                    format_array_muns.append(num_item)
-                    num_index += 1
+            # nếu là kiểu đánh và item phía sau cũng là kiểu đánh thì không tạo mới
             
-            if string not in dais and string.startswith(('b','x','d','bl','dx','xd')) :
-
-                if len(format_array_muns) > 0 :
-
-                    num_item = format_array_muns[num_index]
-                    num_item['kieu'] += string
-                    num_item['kieu'] += " "
-
-                # nếu là kiểu đánh và item phía sau cũng là kiểu đánh thì không tạo mới
+            if index < len(input_str)-1 and (index +1) < len(input_str) and not input_str[index+1].startswith(('b','x','d','bl','dx','xd')) :
+                new_num_item = {}
+                new_num_item['dai']= ''
+                new_num_item['so']= []
+                new_num_item['kieu']= ''
+                format_array_muns.append(new_num_item)
+                num_index += 1
+            
                 
-                if index < len(input_str)-1 and (index +1) < len(input_str) and not input_str[index+1].startswith(('b','x','d','bl','dx','xd')) :
-                    new_num_item = {}
-                    new_num_item['dai']= ''
-                    new_num_item['so']= []
-                    new_num_item['kieu']= ''
-                    format_array_muns.append(new_num_item)
-                    num_index += 1
-                
+    # sau khi format số bắt đầu tách từng tin và validate
+
+    output_list = []
+
+    error_message=False
+
+    # print(format_array_muns)
+
+    output_str = ""
+
+    for item in format_array_muns:
+
+        dai = item['dai']
+
+        nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), so_vong,[])
+
+        
+        kieu = item['kieu']
+
+        output_str +=f"[vong {so_vong}: {len(nums_convert)}] \n\n"
+
+        # Format the string and append it to the output list
+        formatted_str = ""
+
+        if item['kieu']== '' :
+            formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
+            formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
+            error_message=True
+        
+        elif len(item['so']) == 0 :
+            formatted_str += 'Lỗi tin không có dãy số: \n'
+            formatted_str += f"<code>{dai} {kieu}</code> \n"
+            error_message=True
+        
+        else:
+
+            for item_num in nums_convert:
                     
-        # sau khi format số bắt đầu tách từng tin và validate
+                    so = ','.join(item_num)
 
-        output_list = []
+                    if item['dai']== '' :
+                        formatted_str += f"{so} {kieu}; "
+                    else:
+                        formatted_str += f"{dai} {so} {kieu}; "
+                    
 
-        error_message=False
 
-        # print(format_array_muns)
+        output_list.append(formatted_str)
 
-        output_str = ""
+        
+        # Join the formatted strings with line breaks
+        output_str += '; '.join(output_list)
 
-        for item in format_array_muns:
 
-            dai = item['dai']
+        #kiểm tra xem đã đủ các cặp số hay chưa
 
-            nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), so_vong,[])
+        total_cap_so = int(len(item['so']) * (len(item['so']) - 1) / 2)
 
-            
-            kieu = item['kieu']
 
-            output_str +=f"[vong {so_vong}: {len(nums_convert)}] \n\n"
+        if len(nums_convert) < total_cap_so and so_vong > 2:
+            number_exists= []
+            number_exists.extend(nums_convert)
 
-            # Format the string and append it to the output list
-            formatted_str = ""
+            for i in range(so_vong - 1, 1 , -1):
+                
+                output_list = []
 
-            if item['kieu']== '' :
-                formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
-                formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
-                error_message=True
-            
-            elif len(item['so']) == 0 :
-                formatted_str += 'Lỗi tin không có dãy số: \n'
-                formatted_str += f"<code>{dai} {kieu}</code> \n"
-                error_message=True
-            
-            else:
+                _nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), i, number_exists)
+                
+                formatted_str=""
 
-                for item_num in nums_convert:
-                        
-                        so = ','.join(item_num)
+                if len(_nums_convert) > 0:
+
+                    for item_num in _nums_convert:
 
                         if item['dai']== '' :
                             formatted_str += f"{so} {kieu}; "
                         else:
                             formatted_str += f"{dai} {so} {kieu}; "
-                        
 
+                    output_list.append(formatted_str)
 
-            output_list.append(formatted_str)
+                    output_str +=f"\n\n[vong {i}: {len(_nums_convert)}] \n\n"
 
-            
-            # Join the formatted strings with line breaks
-            output_str += '; '.join(output_list)
+                    number_exists.extend(_nums_convert)
 
+                output_str += '; '.join(output_list)
 
-            #kiểm tra xem đã đủ các cặp số hay chưa
+    if error_message == True:
 
-            total_cap_so = int(len(item['so']) * (len(item['so']) - 1) / 2)
+        error_message = f'Vòng {so_vong}\nLỖI\n'+output_str
 
+        await update.message.reply_text(text=error_message,parse_mode =ParseMode.HTML)
 
-            if len(nums_convert) < total_cap_so and so_vong > 2:
-                number_exists= []
-                number_exists.extend(nums_convert)
+    else :
 
-                for i in range(so_vong - 1, 1 , -1):
-                    
-                    output_list = []
-
-                    _nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), i, number_exists)
-                    
-                    formatted_str=""
-
-                    if len(_nums_convert) > 0:
-
-                        for item_num in _nums_convert:
-
-                            if item['dai']== '' :
-                                formatted_str += f"{so} {kieu}; "
-                            else:
-                                formatted_str += f"{dai} {so} {kieu}; "
-
-                        output_list.append(formatted_str)
-
-                        output_str +=f"\n\n[vong {i}: {len(_nums_convert)}] \n\n"
-
-                        number_exists.extend(_nums_convert)
-
-                    output_str += '; '.join(output_list)
-
-        if error_message == True:
-
-            error_message = f'Vòng {so_vong}\nLỖI\n'+output_str
-
-            await update.message.reply_text(text=error_message,parse_mode =ParseMode.HTML)
-
-        else :
-
-            await update.message.reply_text(text=output_str,parse_mode =ParseMode.HTML)
+        await update.message.reply_text(text=output_str,parse_mode =ParseMode.HTML)
 
         
         

@@ -110,18 +110,25 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
         result = []
         # kiểm tra xem nếu list số lớn hơn 3 thì chia đều thành 3
-        if len(int_list) > 3:
-            # Reshape the list into a 3x3 matrix
-            result = [int_list[i:i+3] for i in range(0, len(int_list), 3)]
-
-        elif len(int_list) == 3 and kieu.startswith(('da','d')):
+        if len(int_list) == 3 and kieu.startswith(('da','d')):
 
             result = [int_list[i:i+3] for i in range(0, len(int_list), 3)]
+        
+        elif len(int_list) == 4 and kieu.startswith(('da','d')):
+
+            result = [int_list[i:i+2] for i in range(0, len(int_list), 2)]
+
 
         elif len(int_list) == 3:
 
             result = [int_list[i:i+2] for i in range(0, len(int_list), 2)]
+        
+        
+        elif len(int_list) > 3:
+            # Reshape the list into a 3x3 matrix
+            result = [int_list[i:i+3] for i in range(0, len(int_list), 3)]
 
+        print(result)
         
         for _number in result:
 
@@ -137,7 +144,13 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
                 formatted_str += 'Lỗi tin không có dãy số: \n'
                 formatted_str += f"<code>{dai} {kieu}</code> \n"
                 error_message=True
-            
+
+            elif kieu.startswith(('da','d')) and len(_number) == 1:
+
+                formatted_str += 'Lỗi kiểu đá tối thiểu phải có 2 số: \n'
+                formatted_str += f"<code>{dai} {' '.join(item['so'])} {kieu}</code> \n"
+                error_message=True
+
             else:
 
                 lst_number = "-".join(map(str, _number))
