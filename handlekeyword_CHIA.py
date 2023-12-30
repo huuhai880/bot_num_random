@@ -31,7 +31,7 @@ async def handlekeyword_CHIA (update: Update, context: ContextTypes.DEFAULT_TYPE
         input_str = input_str.replace(substring, ' ')
 
 
-    input_str = re.sub(r'(\d+)(da|b|x|dx+)', r'\1 \2', input_str)
+    input_str = re.sub(r'(\d+)(da|b|x|dx|dd+)', r'\1 \2', input_str)
 
     input_str = re.sub(r'([d])\s+(\d)', r'\1\2', input_str)
 

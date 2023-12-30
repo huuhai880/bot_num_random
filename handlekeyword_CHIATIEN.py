@@ -23,7 +23,7 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
 
     input_str = input_str.lower()
 
-    input_str = re.sub(r'(\d+)(da|b|x|dx+)', r'\1 \2', input_str)
+    input_str = re.sub(r'(\d+)(da|b|x|dx|dd+)', r'\1 \2', input_str)
 
     input_str = re.sub(r'([a-zA-Z]+)(\d+)', r'\1 \2', input_str)
 
