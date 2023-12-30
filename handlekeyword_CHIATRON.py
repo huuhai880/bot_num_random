@@ -21,6 +21,7 @@ async def handlekeyword_CHIATRON (update: Update, context: ContextTypes.DEFAULT_
     input_str = replace_vietnamese_characters(update.message.text)
 
     input_str = input_str.lower()
+    input_str = re.sub(r'(\D) (\d)', r'\1\2', input_str)
 
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ['chiatron', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']

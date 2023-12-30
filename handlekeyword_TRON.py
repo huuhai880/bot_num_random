@@ -21,6 +21,8 @@ async def handlekeyword_TRON(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.lower()
 
+    input_str = re.sub(r'(\D) (\d)', r'\1\2', input_str)
+
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ['tron', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 
@@ -38,8 +40,9 @@ async def handlekeyword_TRON(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     num_index = -1
 
-    for index, string in enumerate(input_str):
+    for index in range(0, len(input_str)):
 
+        string = input_str[index]
         string = string.strip()
         
         #kiểm tra xem ký tự đó có phải là đài hay không
@@ -79,18 +82,21 @@ async def handlekeyword_TRON(update: Update, context: ContextTypes.DEFAULT_TYPE)
         if string not in dais and string.startswith(('b','x','d','bl','dx','xd')) :
 
             if len(format_array_muns) > 0 :
-                num_item = format_array_muns[num_index]
-                num_item['kieu']= string
 
-            # nếu là kiểu đánh thì tạo item mới
+                num_item = format_array_muns[num_index]
+                num_item['kieu'] += string
+                num_item['kieu'] += " "
+
+            # nếu là kiểu đánh và item phía sau cũng là kiểu đánh thì không tạo mới
             
-            if index < len(input_str)-1:
+            if index < len(input_str)-1 and (index +1) < len(input_str) and not input_str[index+1].startswith(('b','x','d','bl','dx','xd')) :
                 new_num_item = {}
                 new_num_item['dai']= ''
                 new_num_item['so']= []
                 new_num_item['kieu']= ''
                 format_array_muns.append(new_num_item)
                 num_index += 1
+
     
     output_list = []
 

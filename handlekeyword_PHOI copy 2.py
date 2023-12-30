@@ -4,11 +4,10 @@ from telegram.constants import ParseMode
 
 from utils import  dais
 
-from helper import replace_vietnamese_characters, is_number
+from helper import replace_vietnamese_characters, laDai, LaySoCuaKieu, LayViTriDaiCuaKieu, LayViTriDiemCuaKieu
 
 import random
 import re
-
 
 async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -16,7 +15,7 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.lower()
 
-    input_str = re.sub(r'(\D) (\d)', r'\1\2', input_str)
+    input_str = re.sub(r'([a-zA-Z]+)(\d+)', r'\1 \2', input_str)
 
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ["phoi","p", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
@@ -28,7 +27,6 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.strip()
 
-
     input_str = input_str.split(' ')
     
     format_array_muns = []
@@ -37,67 +35,33 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     for index, string in enumerate(input_str):
 
+        item={}
+
         string = string.strip()
         
-        #kiểm tra xem ký tự đó có phải là đài hay không
-        if string in dais:
+        # lấy kí tự là kiểu
+        if string not in dais and string.startswith(('b','x','d','bl','dx','xd','xc')):
             
-            if len(format_array_muns) > 0 and len(format_array_muns)-1 == num_index and format_array_muns[num_index]['dai'] =='' :
-                
-                num_item = format_array_muns[num_index]
-                num_item['dai']= string
+            #lấy vị trí đài của kiểu
+            vi_tri_dai_cua_kieu = LayViTriDaiCuaKieu(index, input_str)
 
-            else :
-
-                num_item = {}
-                num_item['dai']= string
-                num_item['so']= []
-                num_item['kieu']= ''
-                format_array_muns.append(num_item)
-                num_index += 1
-
-        if is_number(string):
-
-            if len(format_array_muns) > 0 :
-                
-                num_item = format_array_muns[num_index]
-                num_item['so'].append(string)
-
-            else :
-
-                num_item = {}
-                num_item['dai']= ''
-                num_item['so']= [string]
-                num_item['kieu']= ''
-                format_array_muns.append(num_item)
-                num_index += 1
-
-        if string not in dais and string.startswith(('b','x','d','bl','dx','xd')) :
-
-            if len(format_array_muns) > 0 :
-                num_item = format_array_muns[num_index]
-                num_item['kieu'] += " "+string
-
-                num_item['kieu'] = num_item['kieu'].strip()
-
-
-            # nếu là kiểu đánh thì tạo item mới nếu vị trí tiếp không phải là kiểu
+            if re.match(r"1d|2d|3d|4d|1dai|2dai|3dai|4dai", input_str[vi_tri_dai_cua_kieu]):
+                item["dai"] = input_str[vi_tri_dai_cua_kieu]
             
-            if index < len(input_str)-1 and not string.startswith(('b','x','d','bl','dx','xd')):
-                new_num_item = {}
-                new_num_item['dai']= ''
-                new_num_item['so']= []
-                new_num_item['kieu']= ''
-                format_array_muns.append(new_num_item)
-                num_index += 1
+            item["so"] = LaySoCuaKieu(index, input_str)
+
+            vi_tri_diem_kieu = LayViTriDiemCuaKieu(index,input_str )
+
+            item["kieu"] =input_str[index] + input_str[vi_tri_diem_kieu]
+
+            format_array_muns.append(item)
     
+
     output_list = []
 
     error_message=False
 
-    print(format_array_muns)
-
-
+    
     for item in format_array_muns:
 
         dai = item['dai']
@@ -158,6 +122,6 @@ async def handlekeyword_PHOI(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(text=error_message,parse_mode =ParseMode.HTML)
 
     else :
-        await update.message.reply_text(text="output_str",parse_mode =ParseMode.HTML)
+        await update.message.reply_text(text=output_str,parse_mode =ParseMode.HTML)
             
     
