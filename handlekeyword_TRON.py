@@ -21,6 +21,8 @@ async def handlekeyword_TRON(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = input_str.lower()
 
+    input_str = re.sub(r'(\d+)([bBx])', r'\1 \2', input_str)
+
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ['tron', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 
@@ -36,7 +38,6 @@ async def handlekeyword_TRON(update: Update, context: ContextTypes.DEFAULT_TYPE)
     # Use the sub function to insert a space after the first character in each matched sequence
     input_str = pattern.sub(r'\1 ', input_str)
 
-    
     input_str = input_str.strip()
 
 
