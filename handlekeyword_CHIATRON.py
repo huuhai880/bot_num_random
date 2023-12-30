@@ -21,9 +21,7 @@ async def handlekeyword_CHIATRON (update: Update, context: ContextTypes.DEFAULT_
 
     input_str = input_str.lower()
 
-    input_str = re.sub(r'(\d+)([bBx])', r'\1 \2', input_str)
-
-     #loại bỏ các kí tự đặc biệt
+    #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ['chiatron', '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 
     input_str = re.sub(r'\s+', ' ', input_str)
@@ -31,9 +29,11 @@ async def handlekeyword_CHIATRON (update: Update, context: ContextTypes.DEFAULT_
     for substring in substrings_to_replace:
         input_str = input_str.replace(substring, ' ')
 
-    input_str = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', input_str)
+    input_str = re.sub(r'(\d+)(da|b|x|dx+)', r'\1 \2', input_str)
 
-    pattern = re.compile(r'(\d[a-zA-Z])')
+    input_str = re.sub(r'([d])\s+(\d)', r'\1\2', input_str)
+
+    pattern = re.compile(r'(\d[d])')
 
     # Use the sub function to insert a space after the first character in each matched sequence
     input_str = pattern.sub(r'\1 ', input_str)
