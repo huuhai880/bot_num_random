@@ -111,12 +111,12 @@ async def handlekeyword_3CON(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Format the string and append it to the output list
         formatted_str = ""
 
-        if item['kieu']== '' :
-            formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
-            formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
-            error_message=True
+        # if item['kieu']== '' :
+        #     formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
+        #     formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
+        #     error_message=True
         
-        elif len(item['so']) == 0 :
+        if len(item['so']) == 0 :
             formatted_str += 'Lỗi tin không có dãy số: \n'
             formatted_str += f"<code>{dai} {kieu}</code> \n"
             error_message=True
