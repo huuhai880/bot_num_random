@@ -47,7 +47,7 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
         # Perform some action here for the 'cashe' case
         await handlekeyword_TRON(update, context)
     
-    elif replace_vietnamese_characters(message_text).lower().endswith(("chiatien","chia tien","ct","chiat")):
+    elif replace_vietnamese_characters(message_text).lower().endswith(("chiatien","chia tien","ct","chiat","chia")):
         print("chiatien")
         # Perform some action here for the 'chia' case
         await handlekeyword_CHIATIEN(update, context)

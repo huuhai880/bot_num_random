@@ -59,7 +59,7 @@ def LayViTriDaiCuaKieu(index_of_kieu, noi_dung_arr):
     return -1
 
 def laSo( index, noi_dung_arr):
-        if index < 1 or index >= len(noi_dung_arr):
+        if index < 0 or index >= len(noi_dung_arr):
             return False
 
         # Check if it is a valid number format
@@ -77,15 +77,15 @@ def laSo( index, noi_dung_arr):
 
 def LaySoCuaKieu(index_of_kieu,noi_dung_arr):
         result = []
-        if index_of_kieu <= 0 or index_of_kieu >= len(noi_dung_arr):
+        if index_of_kieu < 0 or index_of_kieu >= len(noi_dung_arr):
             return result  # Invalid, return empty list
 
         i = index_of_kieu - 1
-        while i > 0:
+        while i >= 0:
             if laSo(i, noi_dung_arr):
                 result.append(noi_dung_arr[i])
             else:
-                if len(result) > 0:
+                if len(result) >= 0:
                     return result[::-1]
 
             i -= 1

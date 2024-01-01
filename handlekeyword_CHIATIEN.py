@@ -6,6 +6,19 @@ from helper import replace_vietnamese_characters, LayViTriDaiCuaKieu, LaySoCuaKi
 import re
 import random
 
+# def divide_money_random_rounded(amount, num_people):
+#     # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
+#     percentages = [random.uniform(10, 100) for _ in range(num_people)]
+#     total_percentage = sum(percentages)
+
+#     # Chuẩn hóa tỷ lệ để tổng là 100%
+#     normalized_percentages = [p / total_percentage * 100 for p in percentages]
+
+#     print(normalized_percentages)
+
+#     shares = [round(amount * (p / 100)) for p in normalized_percentages]
+#     return shares
+
 def divide_money_random_rounded(amount, num_people):
     # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
     percentages = [random.uniform(10, 100) for _ in range(num_people)]
@@ -14,8 +27,17 @@ def divide_money_random_rounded(amount, num_people):
     # Chuẩn hóa tỷ lệ để tổng là 100%
     normalized_percentages = [p / total_percentage * 100 for p in percentages]
 
-    shares = [round(amount * (p / 100)) for p in normalized_percentages]
+    # Làm cho tỷ lệ phần trăm chia hết cho 5
+    # adjusted_percentages = [round(p / 5) * 5 for p in normalized_percentages]
+
+    # print(adjusted_percentages)
+
+    # Tính toán số tiền tương ứng cho mỗi người dựa trên tỷ lệ chuẩn hóa và làm tròn (chia hết cho 5)
+    shares = [round(amount * (p / 100) / 5) * 5 for p in normalized_percentages]
+
     return shares
+
+
 
 async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -29,7 +51,7 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
     input_str = re.sub(r'([a-zA-z])\s+([a-zA-z])', r'\1\2', input_str)
 
     #loại bỏ các kí tự đặc biệt
-    substrings_to_replace = ["chiatien","chia tien","ct","chiat", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
+    substrings_to_replace = ["chiatien","chia tien","ct","chiat","chia", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
 
     input_str = re.sub(r'\s+', ' ', input_str)
 
@@ -56,9 +78,13 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
             #lấy vị trí đài của kiểu
             vi_tri_dai_cua_kieu = LayViTriDaiCuaKieu(index, input_str)
 
+            item["dai"] = ''
+
             if re.match(r"1d|2d|3d|4d|1dai|2dai|3dai|4dai", input_str[vi_tri_dai_cua_kieu]):
                 item["dai"] = input_str[vi_tri_dai_cua_kieu]
             
+            print(LaySoCuaKieu(index, input_str))
+
             item["so"] = LaySoCuaKieu(index, input_str)
 
             vi_tri_diem_kieu = LayViTriDiemCuaKieu(index,input_str )
@@ -74,7 +100,6 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
 
     error_message=False
 
-    print(format_array_muns)
 
 
     for item in format_array_muns:
@@ -83,8 +108,6 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
         random_so = ' '.join(item['so'])
         kieu = item['kieu']
         diem = item['diem']
-
-
 
         # Format the string and append it to the output list
         formatted_str = ""
