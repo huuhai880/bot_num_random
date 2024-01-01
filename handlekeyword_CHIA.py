@@ -135,17 +135,17 @@ async def handlekeyword_CHIA (update: Update, context: ContextTypes.DEFAULT_TYPE
 
                 formatted_str = ""
 
-                if item['dai']== '' :
-                    formatted_str += 'Lỗi tin không bắt đầu bằng tên đài: \n'
-                    formatted_str += f"<code>{' '.join(item['so'])} {kieu}</code> \n"
-                    error_message=True
+                # if item['dai']== '' :
+                #     formatted_str += 'Lỗi tin không bắt đầu bằng tên đài: \n'
+                #     formatted_str += f"<code>{' '.join(item['so'])} {kieu}</code> \n"
+                #     error_message=True
 
-                elif item['kieu']== '' :
-                    formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
-                    formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
-                    error_message=True
+                # elif item['kieu']== '' :
+                #     formatted_str += 'Lỗi tin không kết thúc bằng kiểu: \n'
+                #     formatted_str += f"<code>{dai} {' '.join(item['so'])}</code>\n"
+                #     error_message=True
                 
-                elif len(item['so']) == 0 :
+                if len(item['so']) == 0 :
                     formatted_str += 'Lỗi tin không có dãy số: \n'
                     formatted_str += f"<code>{dai} {kieu}</code> \n"
                     error_message=True
