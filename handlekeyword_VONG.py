@@ -128,6 +128,8 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
 
     input_str = re.sub(r'([d])\s+(\d)', r'\1\2', input_str)
 
+    input_str = re.sub(r'([a-zA-z])\s+([a-zA-z])', r'\1\2', input_str)
+
     pattern = re.compile(r'(\d[d])')
 
     # Use the sub function to insert a space after the first character in each matched sequence
@@ -265,9 +267,11 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
             number_exists= []
             number_exists.extend(nums_convert)
 
-            output_list = []
+            
 
             for i in range(so_vong - 1, 1 , -1):
+
+                output_list = []
 
                 _nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), i, number_exists)
                 

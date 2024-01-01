@@ -26,6 +26,7 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
     input_str = re.sub(r'(\d+)(da|b|x|dx|dd+)', r'\1 \2', input_str)
 
     input_str = re.sub(r'([a-zA-Z]+)(\d+)', r'\1 \2', input_str)
+    input_str = re.sub(r'([a-zA-z])\s+([a-zA-z])', r'\1\2', input_str)
 
     #loại bỏ các kí tự đặc biệt
     substrings_to_replace = ["chiatien","chia tien","ct","chiat", '/', ';','-',',','\\','.','?','$','&','*','(',')','{','}','[',']']
