@@ -61,7 +61,6 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
 
     input_str = input_str.strip()
 
-
     input_str = input_str.split(' ')
     
     format_array_muns = []
@@ -100,7 +99,7 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
 
     error_message=False
 
-
+    print(format_array_muns)
 
     for item in format_array_muns:
 
