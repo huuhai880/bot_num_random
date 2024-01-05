@@ -6,18 +6,6 @@ from helper import replace_vietnamese_characters, LayViTriDaiCuaKieu, LaySoCuaKi
 import re
 import random
 
-# def divide_money_random_rounded(amount, num_people):
-#     # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
-#     percentages = [random.uniform(10, 100) for _ in range(num_people)]
-#     total_percentage = sum(percentages)
-
-#     # Chuẩn hóa tỷ lệ để tổng là 100%
-#     normalized_percentages = [p / total_percentage * 100 for p in percentages]
-
-#     print(normalized_percentages)
-
-#     shares = [round(amount * (p / 100)) for p in normalized_percentages]
-#     return shares
 
 def divide_money_random_rounded(amount, num_people):
     # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
@@ -36,7 +24,6 @@ def divide_money_random_rounded(amount, num_people):
     shares = [round(amount * (p / 100) / 5) * 5 for p in normalized_percentages]
 
     return shares
-
 
 
 async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -111,7 +98,7 @@ async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_T
         # Format the string and append it to the output list
         formatted_str = ""
 
-        num_people = random.randint(2, 5)
+        num_people = random.randint(3, 10)
         
         result_divide_money = divide_money_random_rounded(int(diem), num_people)
 
