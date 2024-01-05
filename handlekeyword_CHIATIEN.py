@@ -7,25 +7,7 @@ import re
 import random
 
 
-# def divide_money_random_rounded(amount, num_people):
-#     # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
-#     percentages = [random.uniform(10, 100) for _ in range(num_people)]
-#     total_percentage = sum(percentages)
-
-#     # Chuẩn hóa tỷ lệ để tổng là 100%
-#     normalized_percentages = [p / total_percentage * 100 for p in percentages]
-
-#     # Làm cho tỷ lệ phần trăm chia hết cho 5
-#     # adjusted_percentages = [round(p / 5) * 5 for p in normalized_percentages]
-
-#     # print(adjusted_percentages)
-
-#     # Tính toán số tiền tương ứng cho mỗi người dựa trên tỷ lệ chuẩn hóa và làm tròn (chia hết cho 5)
-#     shares = [round(amount * (p / 100) / 5) * 5 for p in normalized_percentages]
-
-#     return shares
-
-def divide_money_random_rounded(amount, num_people, max_share=50):
+def divide_money_random_rounded(amount, num_people):
     # Tạo ngẫu nhiên một danh sách các tỷ lệ phần trăm
     percentages = [random.uniform(10, 100) for _ in range(num_people)]
     total_percentage = sum(percentages)
@@ -33,22 +15,15 @@ def divide_money_random_rounded(amount, num_people, max_share=50):
     # Chuẩn hóa tỷ lệ để tổng là 100%
     normalized_percentages = [p / total_percentage * 100 for p in percentages]
 
+    # Làm cho tỷ lệ phần trăm chia hết cho 5
+    # adjusted_percentages = [round(p / 5) * 5 for p in normalized_percentages]
+
+    # print(adjusted_percentages)
+
     # Tính toán số tiền tương ứng cho mỗi người dựa trên tỷ lệ chuẩn hóa và làm tròn (chia hết cho 5)
     shares = [round(amount * (p / 100) / 5) * 5 for p in normalized_percentages]
 
-    # Đảm bảo tổng số chia đều bằng với số ban đầu
-    current_total = sum(shares)
-    remaining_amount = amount - current_total
-
-    # Nếu còn số dư, hãy phân phối số dư vào các phần chưa đạt tới max_share
-    for i in range(num_people):
-        if shares[i] < max_share:
-            additional_share = min(max_share - shares[i], remaining_amount)
-            shares[i] += additional_share
-            remaining_amount -= additional_share
-
     return shares
-
 
 
 async def handlekeyword_CHIATIEN(update: Update, context: ContextTypes.DEFAULT_TYPE):
