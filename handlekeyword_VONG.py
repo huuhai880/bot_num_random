@@ -136,8 +136,9 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
     # Use the sub function to insert a space after the first character in each matched sequence
     input_str = pattern.sub(r'\1 ', input_str)
 
-    input_str = input_str.strip()
+    input_str = re.sub(r'(da|b|x|dx|dd+)\s+(\d+)', r'\1\2', input_str)
 
+    input_str = input_str.strip()
 
     input_str = input_str.split(' ')
     
@@ -258,17 +259,15 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
         # Join the formatted strings with line breaks
         output_str += '; '.join(output_list)
 
-
         #kiểm tra xem đã đủ các cặp số hay chưa
 
         total_cap_so = int(len(item['so']) * (len(item['so']) - 1) / 2)
 
 
         if len(nums_convert) < total_cap_so and so_vong > 2:
+            
             number_exists= []
             number_exists.extend(nums_convert)
-
-            
 
             for i in range(so_vong - 1, 1 , -1):
 
@@ -277,8 +276,6 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
                 _nums_convert = await tao_ket_qua(random.sample(item['so'], len(item['so'])), i, number_exists)
                 
                 formatted_str=""
-
-                print(_nums_convert)
 
                 if len(_nums_convert) > 0:
 
@@ -295,7 +292,10 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
 
                     number_exists.extend(_nums_convert)
 
+                
                 output_str += '; '.join(output_list)
+
+                   
 
     if error_message == True:
 
