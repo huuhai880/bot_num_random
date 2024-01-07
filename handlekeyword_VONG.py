@@ -129,6 +129,7 @@ async def handlekeyword_VONG (update: Update, context: ContextTypes.DEFAULT_TYPE
     input_str = re.sub(r'([d])\s+(\d)', r'\1\2', input_str)
 
     input_str = re.sub(r'([a-zA-z])\s+([a-zA-z])', r'\1\2', input_str)
+    input_str = re.sub(r'(\d+)(n+)', r'\1', input_str)
 
     pattern = re.compile(r'(\d[d])')
 

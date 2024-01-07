@@ -35,8 +35,8 @@ async def handlekeyword_TRON(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     input_str = re.sub(r'([a-zA-z])\s+([a-zA-z])', r'\1\2', input_str)
 
-
-
+    input_str = re.sub(r'(\d+)(n+)', r'\1', input_str)
+    
     pattern = re.compile(r'(\d[d])')
 
     # Use the sub function to insert a space after the first character in each matched sequence
