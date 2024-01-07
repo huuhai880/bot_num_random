@@ -66,7 +66,7 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
     
     elif replace_vietnamese_characters(message_text).lower().endswith(("vong3", "vong 3","v 3","v3")):
         
-        print("vong4")
+        print("vong3")
         # Perform some action here for the 'chia' case
         await handlekeyword_VONG(update, context, 3)
     
