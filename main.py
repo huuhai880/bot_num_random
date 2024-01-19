@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import Application, ContextTypes, MessageHandler, filters
+from telegram.ext import Application, ContextTypes, MessageHandler, filters, CommandHandler
 
 from telegram.constants import ParseMode
 import re
@@ -16,6 +16,7 @@ from handlekeyword_BOVI import handlekeyword_BOVI
 from handlekeyword_BOHANG import handlekeyword_BOHANG
 from handlekeyword_BOHANGVABOVI import handlekeyword_BOHANGVABOVI
 from handlekeyword_TACH3 import handlekeyword_TACH3
+from huongdan import huongdan
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
 TOKEN = '6970464750:AAGSujF_3e2CSEL76Kt_P-e7qxk061WM8rc'
@@ -116,11 +117,16 @@ def main():
 
     app = Application.builder().token(TOKEN).build()
 
+    app.add_handler(CommandHandler("huongdan", huongdan))
     # command
 
     # app.add_handler(MessageHandler(filters.ChatType.GROUP & filters.TEXT, handlerListenMessage))
 
     app.add_handler(MessageHandler(filters.TEXT, handlerListenMessage))
+
+    
+
+
 
     app.run_polling(poll_interval=1)
 
