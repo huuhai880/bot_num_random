@@ -15,6 +15,7 @@ from handlekeyword_CHIATIEN import handlekeyword_CHIATIEN
 from handlekeyword_BOVI import handlekeyword_BOVI
 from handlekeyword_BOHANG import handlekeyword_BOHANG
 from handlekeyword_BOHANGVABOVI import handlekeyword_BOHANGVABOVI
+from handlekeyword_TACH3 import handlekeyword_TACH3
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
 TOKEN = '6970464750:AAGSujF_3e2CSEL76Kt_P-e7qxk061WM8rc'
@@ -99,6 +100,11 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
         print("vong5")
         # Perform some action here for the 'chia' case
         await handlekeyword_VONG(update, context, 5)
+    
+    elif replace_vietnamese_characters(message_text).lower().endswith(("tach3","tach 3","t3","t 3")):
+        print("tach 3")
+        # Perform some action here for the 'chia' case
+        await handlekeyword_TACH3(update, context)
     
     else:
         
