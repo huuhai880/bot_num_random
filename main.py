@@ -19,11 +19,7 @@ from handlekeyword_TACH3 import handlekeyword_TACH3
 from huongdan import huongdan
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
-<<<<<<< HEAD
 TOKEN = '6178433211:AAGekPQz_lY_4Sex-3T5n-fiy41n4GSmVe8'
-=======
-TOKEN = '6970464750:AAGSujF_3e2CSEL76Kt_P-e7qxk061WM8rc'
->>>>>>> main
 
 pattern_bovi = re.compile(r'bo\s*vi|bovi|bv', re.IGNORECASE)
 
