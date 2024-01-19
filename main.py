@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import Application, ContextTypes, MessageHandler, filters
 
 from telegram.constants import ParseMode
-
+import re
 from helper import replace_vietnamese_characters, is_number
 
 from handlekeyword_CHIA import handlekeyword_CHIA
@@ -12,11 +12,16 @@ from handlekeyword_TRON import handlekeyword_TRON
 from handlekeyword_3CON import handlekeyword_3CON
 from handlekeyword_PHOI import handlekeyword_PHOI
 from handlekeyword_CHIATIEN import handlekeyword_CHIATIEN
+from handlekeyword_BOVI import handlekeyword_BOVI
+from handlekeyword_BOHANG import handlekeyword_BOHANG
+from handlekeyword_BOHANGVABOVI import handlekeyword_BOHANGVABOVI
 
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
-TOKEN = '6808395010:AAGvk6Wgg3eqm-nj12N6loWWn4lcDJMLZNY'
+TOKEN = '6970464750:AAGSujF_3e2CSEL76Kt_P-e7qxk061WM8rc'
 
+pattern_bovi = re.compile(r'bo\s*vi|bovi|bv', re.IGNORECASE)
 
+pattern_bohang = re.compile(r'bo\s*hang|bohang|bh', re.IGNORECASE)
 # Example usage
 
 async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -28,6 +33,21 @@ async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYP
         print("chiatron")
         # Perform some action here for the 'chia' case
         await handlekeyword_CHIATRON(update, context)
+
+    elif pattern_bovi.search(replace_vietnamese_characters(message_text)) and pattern_bohang.search(replace_vietnamese_characters(message_text)):
+        print("bo_vi and bo_hang")
+        # Perform some action here for the 'chia' case
+        await handlekeyword_BOHANGVABOVI(update, context)
+
+    elif pattern_bovi.search(replace_vietnamese_characters(message_text)):
+        print("bo_vi")
+        # Perform some action here for the 'chia' case
+        await handlekeyword_BOVI(update, context)
+    
+    elif pattern_bohang.search(replace_vietnamese_characters(message_text)):
+        print("bo_hang")
+        # Perform some action here for the 'chia' case
+        await handlekeyword_BOHANG(update, context)
 
     elif replace_vietnamese_characters(message_text).lower().endswith(("3con","3c","3 con","3 c","3conthang","3ct","3 conthang","3 ct")):
 
