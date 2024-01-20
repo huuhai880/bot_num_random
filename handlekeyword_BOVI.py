@@ -71,7 +71,7 @@ async def handlekeyword_BOVI (update: Update, context: ContextTypes.DEFAULT_TYPE
 
     # tach lấy số hoán vị
 
-    input_str = re.sub(r'(bo\s*vi|bovi|bv+)(\d+)', r'|\2', input_str)
+    input_str = re.sub(r'(bo\s*vi|bovi|bv|vi+)(\d+)', r'|\2', input_str)
  
     input_str = input_str.strip()
 
