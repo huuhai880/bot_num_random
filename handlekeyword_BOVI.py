@@ -27,7 +27,7 @@ def chuyen_chuoi_sang_so(chuoi, number_skip):
     filtered_numbers = number_array
 
     for _number_skip in lst_number_skip:
-        filtered_numbers = [num for num in number_array if int(num) % 10 != int(_number_skip)]
+        filtered_numbers = [num for num in filtered_numbers if int(num) % 10 != int(_number_skip)]
    
     formatted_array = ["{:02d}".format(num) for num in filtered_numbers]
 

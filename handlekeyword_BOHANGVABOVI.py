@@ -28,7 +28,7 @@ def chuyen_chuoi_sang_so(chuoi, number_skip_hang,number_skip_vi):
     filtered_numbers =number_array
     #bỏ hàng chục
     for _number_skip_hang in lst_number_skip_hang:
-        filtered_numbers = [num for num in number_array if int(num) // 10 % 10 != int(_number_skip_hang)]
+        filtered_numbers = [num for num in filtered_numbers if int(num) // 10 % 10 != int(_number_skip_hang)]
 
     # bỏ đơn vị
     for _number_skip_vi in lst_number_skip_vi:
