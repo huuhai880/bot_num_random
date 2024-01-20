@@ -21,9 +21,9 @@ from huongdan import huongdan
 # Replace 'YOUR_BOT_TOKEN' with the token you obtained from the BotFather
 TOKEN = '6178433211:AAGekPQz_lY_4Sex-3T5n-fiy41n4GSmVe8'
 
-pattern_bovi = re.compile(r'bo\s*vi|bovi|bv', re.IGNORECASE)
+pattern_bovi = re.compile(r'bo\s*vi|bovi|bv|vi', re.IGNORECASE)
 
-pattern_bohang = re.compile(r'bo\s*hang|bohang|bh', re.IGNORECASE)
+pattern_bohang = re.compile(r'bo\s*hang|bohang|bh|hang', re.IGNORECASE)
 # Example usage
 
 async def handlerListenMessage(update: Update, context: ContextTypes.DEFAULT_TYPE):

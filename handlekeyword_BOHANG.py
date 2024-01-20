@@ -70,7 +70,7 @@ async def handlekeyword_BOHANG (update: Update, context: ContextTypes.DEFAULT_TY
 
     # tach lấy số hoán vị
 
-    input_str = re.sub(r'(bo\s*hang|bohang|bh+)(\d+)', r'|\2', input_str)
+    input_str = re.sub(r'(bo\s*hang|bohang|bh|hang+)(\d+)', r'|\2', input_str)
 
     input_str = input_str.strip()
 
